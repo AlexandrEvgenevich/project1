@@ -1,0 +1,1 @@
+create table if not exists user_data (id serial PRIMARY KEY, name varchar(40), last_name varchar(40), patronymic varchar(40), number varchar(40), text varchar(800));

@@ -1,0 +1,55 @@
+{
+    "users": [
+        {
+            "name": "rabbit",
+            "password": "rabbit",
+            "tags": "administrator"
+        }
+    ],
+    "permissions": [
+        {
+            "user": "rabbit",
+            "vhost": "host1",
+            "configure": ".*",
+            "write": ".*",
+            "read": ".*"
+           }
+    ],
+    "parameters": [],
+    "policies": [],
+    "vhosts": [
+        {
+            "name": "host1"
+        }
+    ],
+    "exchanges": [
+        {
+            "name": "ex1",
+            "vhost": "host1",
+            "type": "direct",
+            "durable": true,
+            "auto_delete": false,
+            "internal": false,
+            "arguments": {}
+        }
+    ],
+    "queues":[
+        {
+            "name": "que1",
+            "vhost": "host1",
+            "durable": true,
+            "auto_delete": false,
+            "arguments": {}
+        }
+    ],
+    "bindings": [
+        {
+            "source": "ex1",
+            "vhost": "host1",
+            "destination": "que1",
+            "destination_type": "queue",
+            "routing_key": "rout1",
+            "arguments": {}
+        }
+    ]
+}

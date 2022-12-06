@@ -1,0 +1,51 @@
+version: '3.9'
+
+networks:
+  net_1:
+
+services:
+
+  frontend:
+    build: ./frontend
+    ports:
+      - 80:80
+    networks:
+      - net_1
+
+  rabbitmq:
+    image: rabbitmq:3.11.4-management
+    ports:
+      - 15672:15672
+      - 5671:5672
+    networks:
+      - net_1
+    volumes:
+     - ./rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+     - ./rabbitmq/definitions.json:/etc/rabbitmq/definitions.json
+    environment:
+     - RABBITMQ_DEFAULT_USER=rabbit
+     - RABBITMQ_DEFAULT_PASS=rabbit
+     - RABBITMQ_DEFAULT_VHOST=host1
+
+  servicedb:
+    depends_on:
+      - rabbitmq
+    build: ./servicedb
+    ports:
+      - 90:90
+    networks:
+      - net_1
+    restart: on-failure
+     
+  postgres:
+    image: postgres:latest
+    ports:
+      - 5431:5432
+    networks:
+      - net_1
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=db1
